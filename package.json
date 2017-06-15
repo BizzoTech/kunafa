@@ -2,5 +2,8 @@
   "name": "kunafa",
   "version": "0.0.1",
   "main": "index.js",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "fs-extra": "^3.0.1"
+  }
 }
