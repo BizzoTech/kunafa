@@ -5,12 +5,13 @@ const yaml = require('js-yaml');
 const R = require('ramda');
 
 
-const addBuildTypeToYamlFile = (filePath, buildType) => {
+const updateYamlFile = (filePath, buildType) => {
   const doc = yaml.safeLoad(fs.readFileSync(filePath, 'utf8'));
   const updatedServices = R.map(service => {
-    return R.merge(service, {
-      environment: [...service.environment, `BUILD_TYPE=${buildType}`]
-    })
+    const serviceWithEnv = R.merge(service, {
+      environment: ['COUCHDB_USER', 'COUCHDB_PASSWORD', `BUILD_TYPE=${buildType}`, ...(service.environment || [])]
+    });
+    return R.merge({restart: "always"}, serviceWithEnv);
   }, doc.services);
   const updatedDoc = R.merge(doc, {services: updatedServices});
   fs.writeFileSync(filePath, yaml.safeDump(updatedDoc));
@@ -62,8 +63,8 @@ const start = async() => {
 
     await fs.copy(`.env.${BUILD_TYPE}`, `${distDir}/.env`);
 
-    addBuildTypeToYamlFile(`${distDir}/docker-compose.yml`, BUILD_TYPE);
-    addBuildTypeToYamlFile(`${distDir}/docker-compose.override.yml`, BUILD_TYPE);
+    updateYamlFile(`${distDir}/docker-compose.yml`, BUILD_TYPE);
+    updateYamlFile(`${distDir}/docker-compose.override.yml`, BUILD_TYPE);
 
     const result = await executeCommand(`cd ${distDir} && docker-compose up --build -d`);
     console.log(result);

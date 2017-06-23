@@ -3,69 +3,33 @@ version: '3'
 services:
   auth-db:
     build: ./couchdb
-    restart: always
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
   main-db:
     build: ./couchdb
-    restart: always
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
   events-db:
     build: ./couchdb
-    restart: always
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
   notifications-db:
     build: ./couchdb
-    restart: always
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
   archive-db:
     build: ./couchdb
-    restart: always
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
   public-db:
     build: ./couchdb
-    restart: always
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
   shared-db:
     build: ./couchdb
-    restart: always
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
   anonymous-db:
     build: ./couchdb
-    restart: always
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
   auth-app:
     build: ./auth-app
-    restart: always
     environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
       - FBSECRET
     depends_on:
       - auth-db
       - public-db
   proxy-server:
     build: ./proxy-server
-    restart: always
     environment:
       - DOMAIN
     ports:
-      - 5080:80
+      - ${PORT}:80
     depends_on:
       - auth-db
       - main-db
@@ -78,12 +42,5 @@ services:
   init:
     build: ./init
     restart: on-failure
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
   eventbus:
     build: ./eventbus
-    restart: always
-    environment:
-      - COUCHDB_USER
-      - COUCHDB_PASSWORD
