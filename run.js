@@ -1,6 +1,20 @@
 const fs = require('fs-extra');
 const exec = require('child_process').exec;
 const process = require('process');
+const yaml = require('js-yaml');
+const R = require('ramda');
+
+
+const addBuildTypeToYamlFile = (filePath, buildType) => {
+  const doc = yaml.safeLoad(fs.readFileSync(filePath, 'utf8'));
+  const updatedServices = R.map(service => {
+    return R.merge(service, {
+      environment: [...service.environment, `BUILD_TYPE=${buildType}`]
+    })
+  }, doc.services);
+  const updatedDoc = R.merge(doc, {services: updatedServices});
+  fs.writeFileSync(filePath, yaml.safeDump(updatedDoc));
+}
 
 const executeCommand = command => {
   return new Promise((resolve, reject) => {
@@ -47,6 +61,9 @@ const start = async() => {
     }
 
     await fs.copy(`.env.${BUILD_TYPE}`, `${distDir}/.env`);
+
+    addBuildTypeToYamlFile(`${distDir}/docker-compose.yml`, BUILD_TYPE);
+    addBuildTypeToYamlFile(`${distDir}/docker-compose.override.yml`, BUILD_TYPE);
 
     const result = await executeCommand(`cd ${distDir} && docker-compose up --build -d`);
     console.log(result);
