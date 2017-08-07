@@ -98,7 +98,7 @@ const handleEvent = async(event) => {
  }
 }
 
-const checkToArchive => event => {
+const checkToArchive = event => {
   if(!event.relevantDocsIds || event.relevantDocsIds.length === 0){
     return true;
   }
