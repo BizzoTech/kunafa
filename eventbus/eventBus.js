@@ -7,7 +7,7 @@ const getEvents = async() => {
   selector: {
    type: "EVENT",
    status: {
-    "$nin": ["done", "error"]
+    "$nin": ["error"]
    }
   },
   sort: [
@@ -80,27 +80,45 @@ const handleEvent = async(event) => {
     }));
    }
    break;
+  case 'done':
+    if(checkToArchive(event)){
+      return await mainDb.put(R.merge(event, {status: "archived"}));
+    }
   case "archived":
-   return await mainDb.put(R.merge(event, {_deleted: true}));
+  try {
+    const doc = await archiveDb.get(event._id);
+    if(doc){
+      return await mainDb.put(R.merge(event, {_deleted: true}));
+    }
+  } catch (e) {
+
+  }
   default:
    return;
  }
 }
 
-const getArchiveEvents = async() => {
- const result = await archiveDb.find({
-  selector: {
-   type: "EVENT",
-   status: "done"
-  }
- });
- return result.docs.filter(event => {
+const checkToArchive => event => {
   if(!event.relevantDocsIds || event.relevantDocsIds.length === 0){
     return true;
   }
   return event.appliedOn && event.appliedOnClient && Object.keys(event.appliedOn).every(docId => event.appliedOnClient[docId]);
- });
 }
+
+// const getArchiveEvents = async() => {
+//  const result = await archiveDb.find({
+//   selector: {
+//    type: "EVENT",
+//    status: "done"
+//   }
+//  });
+//  return result.docs.filter(event => {
+//   if(!event.relevantDocsIds || event.relevantDocsIds.length === 0){
+//     return true;
+//   }
+//   return event.appliedOn && event.appliedOnClient && Object.keys(event.appliedOn).every(docId => event.appliedOnClient[docId]);
+//  });
+// }
 
 const start = async() => {
  const events = await getEvents();
@@ -108,11 +126,11 @@ const start = async() => {
  for (event of events) {
   await handleEvent(event);
  }
- const archivedEvents = await getArchiveEvents();
- console.log("Archive Events " + archivedEvents.length);
- await archiveDb.bulkDocs(archivedEvents.map(event => {
-  return R.merge(event, {status: "archived"});
- }));
+ // const archivedEvents = await getArchiveEvents();
+ // console.log("Archive Events " + archivedEvents.length);
+ // await archiveDb.bulkDocs(archivedEvents.map(event => {
+ //  return R.merge(event, {status: "archived"});
+ // }));
 }
 
 runFor(start, 1000 * 60 * 15, "Event Bus");

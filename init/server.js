@@ -126,7 +126,7 @@ const {
     continuous: true,
     selector: {
      type: "EVENT",
-     status: "done"
+     status: "archived"
     }
    });
   } catch (e) {
@@ -135,13 +135,13 @@ const {
    }
   }
 
-  try {
-   await archiveReplicator.put({_id: "archive_to_main", source: archiveDbUrl, target: mainDbUrl, continuous: true});
-  } catch (e) {
-   if (e.status != 409) {
-    throw e;
-   }
-  }
+  // try {
+  //  await archiveReplicator.put({_id: "archive_to_main", source: archiveDbUrl, target: mainDbUrl, continuous: true});
+  // } catch (e) {
+  //  if (e.status != 409) {
+  //   throw e;
+  //  }
+  // }
  } catch (e) {
   console.log(e);
   process.exit(1);
