@@ -105,32 +105,12 @@ const checkToArchive = event => {
   return event.appliedOn && event.appliedOnClient && Object.keys(event.appliedOn).every(docId => event.appliedOnClient[docId]);
 }
 
-// const getArchiveEvents = async() => {
-//  const result = await archiveDb.find({
-//   selector: {
-//    type: "EVENT",
-//    status: "done"
-//   }
-//  });
-//  return result.docs.filter(event => {
-//   if(!event.relevantDocsIds || event.relevantDocsIds.length === 0){
-//     return true;
-//   }
-//   return event.appliedOn && event.appliedOnClient && Object.keys(event.appliedOn).every(docId => event.appliedOnClient[docId]);
-//  });
-// }
-
 const start = async() => {
  const events = await getEvents();
  console.log("Events " + events.length);
  for (event of events) {
   await handleEvent(event);
  }
- // const archivedEvents = await getArchiveEvents();
- // console.log("Archive Events " + archivedEvents.length);
- // await archiveDb.bulkDocs(archivedEvents.map(event => {
- //  return R.merge(event, {status: "archived"});
- // }));
 }
 
 runFor(start, 1000 * 60 * 15, "Event Bus");
