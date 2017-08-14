@@ -10,6 +10,7 @@ const getEvents = async() => {
     "$nin": ["error"]
    }
   },
+  limit: 100,
   sort: [
    {
     createdAt: "asc"
