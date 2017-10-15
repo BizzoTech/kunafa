@@ -19,7 +19,7 @@ const updateYamlFile = (filePath, buildType) => {
 
 const executeCommand = command => {
   return new Promise((resolve, reject) => {
-    childProcess = exec(command, (err, stdout, stderr) => {
+    childProcess = exec(command, {maxBuffer: Infinity}, (err, stdout, stderr) => {
       if (err) {
         return reject(err);
       }
