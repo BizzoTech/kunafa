@@ -3,20 +3,36 @@ version: '2.2'
 services:
   auth-db:
     build: ./couchdb
+    volumes:
+      - '/opt/couchdb/data/auth:/opt/couchdb/data'
   main-db:
     build: ./couchdb
+    volumes:
+      - '/opt/couchdb/data/main:/opt/couchdb/data'
   events-db:
     build: ./couchdb
+    volumes:
+      - '/opt/couchdb/data/events:/opt/couchdb/data'
   notifications-db:
     build: ./couchdb
+    volumes:
+      - '/opt/couchdb/data/notifications:/opt/couchdb/data'
   archive-db:
     build: ./couchdb
+    volumes:
+      - '/opt/couchdb/data/archive:/opt/couchdb/data'
   public-db:
     build: ./couchdb
+    volumes:
+      - '/opt/couchdb/data/public:/opt/couchdb/data'
   shared-db:
     build: ./couchdb
+    volumes:
+      - '/opt/couchdb/data/shared:/opt/couchdb/data'
   anonymous-db:
     build: ./couchdb
+    volumes:
+      - '/opt/couchdb/data/anonymous:/opt/couchdb/data'
   auth-app:
     build: ./auth-app
     environment:
