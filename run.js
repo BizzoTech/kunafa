@@ -11,7 +11,18 @@ const updateYamlFile = (filePath, buildType) => {
     const serviceWithEnv = R.merge(service, {
       environment: ['COUCHDB_USER', 'COUCHDB_PASSWORD', `BUILD_TYPE=${buildType}`, ...(service.environment || [])]
     });
-    return R.merge({restart: "always", mem_limit: '200m', cpus: 0.5}, serviceWithEnv);
+    return R.merge({
+      restart: "always",
+      mem_limit: '200m',
+      cpus: 0.5,
+      logging: {
+        driver: "json-file",
+        options: {
+          'max-size': '20m',
+          'max-file': '10'
+        }
+      }
+    }, serviceWithEnv);
   }, doc.services);
   const updatedDoc = R.merge(doc, {services: updatedServices});
   fs.writeFileSync(filePath, yaml.safeDump(updatedDoc));
