@@ -2,46 +2,46 @@ version: '2.2'
 
 services:
   auth-db:
-    build: ./couchdb
+    image: klaemo/couchdb:2.0
     volumes:
       - '/opt/couchdb/data/auth:/opt/couchdb/data'
   main-db:
-    build: ./couchdb
+    image: klaemo/couchdb:2.0
     volumes:
       - '/opt/couchdb/data/main:/opt/couchdb/data'
   events-db:
-    build: ./couchdb
+    image: klaemo/couchdb:2.0
     volumes:
       - '/opt/couchdb/data/events:/opt/couchdb/data'
   notifications-db:
-    build: ./couchdb
+    image: klaemo/couchdb:2.0
     volumes:
       - '/opt/couchdb/data/notifications:/opt/couchdb/data'
   archive-db:
-    build: ./couchdb
+    image: klaemo/couchdb:2.0
     volumes:
       - '/opt/couchdb/data/archive:/opt/couchdb/data'
   public-db:
-    build: ./couchdb
+    image: klaemo/couchdb:2.0
     volumes:
       - '/opt/couchdb/data/public:/opt/couchdb/data'
   shared-db:
-    build: ./couchdb
+    image: klaemo/couchdb:2.0
     volumes:
       - '/opt/couchdb/data/shared:/opt/couchdb/data'
   anonymous-db:
-    build: ./couchdb
+    image: klaemo/couchdb:2.0
     volumes:
       - '/opt/couchdb/data/anonymous:/opt/couchdb/data'
   auth-app:
-    build: ./auth-app
+    image: bizzotech/kunafa-auth-app:v0.1.0
     environment:
       - FBSECRET
     depends_on:
       - auth-db
       - public-db
   proxy-server:
-    build: ./proxy-server
+    image: bizzotech/kunafa-proxy-server:v0.1.1
     environment:
       - DOMAIN
     ports:
@@ -56,7 +56,7 @@ services:
       - shared-db
       - anonymous-db
   init:
-    build: ./init
+    image: bizzotech/kunafa-init:v0.1.0
     restart: on-failure
   eventbus:
-    build: ./eventbus
+    image: bizzotech/kunafa-eventbus:v0.1.0

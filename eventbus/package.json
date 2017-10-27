@@ -1,9 +1,0 @@
-{
-  "name": "eventbus",
-  "version": "0.0.0",
-  "private": true,
-  "dependencies": {
-    "ramda": "^0.23.0",
-    "experimental-server": "git+https://github.com/BizzoTech/experimental-server"
-  }
-}
