@@ -49,6 +49,9 @@ const dontCopy = ['dist', 'node_modules', 'package.json', 'yarn.lock', 'run.js']
 
 const start = async() => {
   try {
+    const loginCmd = await executeCommand('ecr get-login --no-include-email');
+    await executeCommand(loginCmd);
+    
     const currentPath = await fs.realpath('.');
     const projectName = currentPath.split('/').pop();
     const BUILD_TYPE = process.argv.length > 2 ? process.argv[2] : "debug";
