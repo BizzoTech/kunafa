@@ -2,35 +2,35 @@ version: '2.2'
 
 services:
   auth-db:
-    image: klaemo/couchdb:2.0
+    image: apache/couchdb:2.1.0
     volumes:
       - '/opt/couchdb/data/auth:/opt/couchdb/data'
   main-db:
-    image: klaemo/couchdb:2.0
+    image: apache/couchdb:2.1.0
     volumes:
       - '/opt/couchdb/data/main:/opt/couchdb/data'
   events-db:
-    image: klaemo/couchdb:2.0
+    image: apache/couchdb:2.1.0
     volumes:
       - '/opt/couchdb/data/events:/opt/couchdb/data'
   notifications-db:
-    image: klaemo/couchdb:2.0
+    image: apache/couchdb:2.1.0
     volumes:
       - '/opt/couchdb/data/notifications:/opt/couchdb/data'
   archive-db:
-    image: klaemo/couchdb:2.0
+    image: apache/couchdb:2.1.0
     volumes:
       - '/opt/couchdb/data/archive:/opt/couchdb/data'
   public-db:
-    image: klaemo/couchdb:2.0
+    image: apache/couchdb:2.1.0
     volumes:
       - '/opt/couchdb/data/public:/opt/couchdb/data'
   shared-db:
-    image: klaemo/couchdb:2.0
+    image: apache/couchdb:2.1.0
     volumes:
       - '/opt/couchdb/data/shared:/opt/couchdb/data'
   anonymous-db:
-    image: klaemo/couchdb:2.0
+    image: apache/couchdb:2.1.0
     volumes:
       - '/opt/couchdb/data/anonymous:/opt/couchdb/data'
   auth-app:
