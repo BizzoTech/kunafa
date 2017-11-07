@@ -56,7 +56,7 @@ services:
       - shared-db
       - anonymous-db
   init:
-    image: bizzotech/kunafa-init:v0.1.0
+    image: bizzotech/kunafa-init:v0.1.1
     restart: on-failure
   eventbus:
-    image: bizzotech/kunafa-eventbus:v0.1.0
+    image: bizzotech/kunafa-eventbus:v0.1.1
