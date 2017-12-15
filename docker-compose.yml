@@ -34,7 +34,7 @@ services:
     volumes:
       - '/opt/couchdb/data/anonymous:/opt/couchdb/data'
   auth-app:
-    image: bizzotech/kunafa-auth-app:v0.1.0
+    image: bizzotech/kunafa-auth-app:v0.1.2
     environment:
       - FBSECRET
     depends_on:
