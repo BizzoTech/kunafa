@@ -21,7 +21,7 @@ http {
   server {
     listen 80;
 
-    {{main_server_locations}}
+    {{{main_server_locations}}}
 
     location /_users {
       proxy_pass http://auth-db:5984;
@@ -107,7 +107,7 @@ http {
   }
 
 
-  {{servers}}
+{{{servers}}}
 
 
 }

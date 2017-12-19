@@ -62,7 +62,7 @@ const installPlugin = async(distDir, plugin) => {
   await fs.writeFile(`${distDir}/docker-compose.yml`, yaml.safeDump(mergedCompose));
 }
 
-const dontCopy = ['dist', 'node_modules', 'package.json', 'yarn.lock', 'run.js'];
+const dontCopy = ['dist', 'node_modules', 'package.json', 'yarn.lock', 'run.js', 'nginx-conf'];
 
 const start = async() => {
   try {
