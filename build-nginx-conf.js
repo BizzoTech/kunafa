@@ -27,6 +27,16 @@ module.exports = async(distDir, plugins) => {
     }
   }
 
+
+  if(fs.existsSync('./nginx-conf/context')){
+    const appContextDirContents = await fs.readdir('./nginx-conf/context');
+    for (const fileName of appContextDirContents) {
+      const currentValue = context[fileName] ? context[fileName] + '\n' : "";
+      context[fileName] = currentValue +  await fs.readFile(`./nginx-conf/context/${fileName}`, 'utf8');
+    }
+  }
+  
+
   const nginxConfUpdated =  template(context);
   await fs.writeFile(`./${distDir}/nginx.conf`, nginxConfUpdated);
 }
