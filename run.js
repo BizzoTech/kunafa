@@ -45,6 +45,14 @@ const executeCommand = command => {
 }
 
 
+const installPlugin = async(distDir, plugin) => {
+  const kunafaCompose = yaml.safeLoad(await fs.readFile(`${distDir}/docker-compose.yml`, 'utf8'));
+  const pluginCompose = yaml.safeLoad(await fs.readFile(`node_modules/${plugin}/docker-compose.yml`, 'utf8'));
+
+  const mergedCompose = R.mergeDeepRight(kunafaCompose, pluginCompose);
+  return await fs.writeFile(`${distDir}/docker-compose.yml`, yaml.safeDump(mergedCompose));
+}
+
 const dontCopy = ['dist', 'node_modules', 'package.json', 'yarn.lock', 'run.js'];
 
 const start = async() => {
@@ -57,6 +65,7 @@ const start = async() => {
 
     await fs.emptyDir(distDir);
 
+    // Copy kunafa content
     const kunafaDirContents = await fs.readdir('node_modules/kunafa');
     //console.log(kunafaDirContents);
     for(fileName of kunafaDirContents){
@@ -64,6 +73,21 @@ const start = async() => {
         await fs.copy(`node_modules/kunafa/${fileName}`, `${distDir}/${fileName}`);
       }
     }
+
+    // use rc file
+    try {
+      const kunafaRcFile = await fs.readFile('.kunafarc');
+      const kunafaRc = JSON.parse(kunafaRcFile);
+      const plugins = kunafaRc.plugins || [];
+      for (const plugin of plugins) {
+        await installPlugin(distDir, plugin);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+
+    // Copy app content
     const currentDirContents = await fs.readdir('.');
     //console.log(currentDirContents);
     for(fileName of currentDirContents){
