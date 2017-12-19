@@ -41,7 +41,9 @@ services:
       - auth-db
       - public-db
   proxy-server:
-    image: bizzotech/kunafa-proxy-server:v0.1.1
+    image: bizzotech/kunafa-proxy-server:v0.1.4
+    volumes:
+      - './nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf'
     environment:
       - DOMAIN
     ports:

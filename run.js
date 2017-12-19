@@ -4,6 +4,8 @@ const process = require('process');
 const yaml = require('js-yaml');
 const R = require('ramda');
 
+const buildNginxConfig = require('./build-nginx-conf');
+
 
 const updateYamlFile = (filePath, buildType) => {
   const doc = yaml.safeLoad(fs.readFileSync(filePath, 'utf8'));
@@ -92,6 +94,8 @@ const start = async() => {
     } catch (error) {
       console.log(error);
     }
+    await buildNginxConfig(distDir, plugins);
+    
 
 
     // Copy app content
@@ -108,6 +112,7 @@ const start = async() => {
     updateYamlFile(`${distDir}/docker-compose.yml`, BUILD_TYPE);
     updateYamlFile(`${distDir}/docker-compose.override.yml`, BUILD_TYPE);
 
+    
     const result = await executeCommand(`cd ${distDir} && docker-compose up --build --remove-orphans -d`);
     console.log(result);
   } catch (e) {
