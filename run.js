@@ -46,11 +46,18 @@ const executeCommand = command => {
 
 
 const installPlugin = async(distDir, plugin) => {
+
+  const pluginConfig = JSON.parse(await fs.readFile(`node_modules/${plugin}/config.json`));
+
+  for (const fileName of pluginConfig.filesToCopy) {
+    await fs.copy(`node_modules/${plugin}/${fileName}`, `${distDir}/${fileName}`);
+  }
+
   const kunafaCompose = yaml.safeLoad(await fs.readFile(`${distDir}/docker-compose.yml`, 'utf8'));
   const pluginCompose = yaml.safeLoad(await fs.readFile(`node_modules/${plugin}/docker-compose.yml`, 'utf8'));
 
   const mergedCompose = R.mergeDeepRight(kunafaCompose, pluginCompose);
-  return await fs.writeFile(`${distDir}/docker-compose.yml`, yaml.safeDump(mergedCompose));
+  await fs.writeFile(`${distDir}/docker-compose.yml`, yaml.safeDump(mergedCompose));
 }
 
 const dontCopy = ['dist', 'node_modules', 'package.json', 'yarn.lock', 'run.js'];
