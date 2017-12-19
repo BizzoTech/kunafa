@@ -108,7 +108,7 @@ const start = async() => {
     updateYamlFile(`${distDir}/docker-compose.yml`, BUILD_TYPE);
     updateYamlFile(`${distDir}/docker-compose.override.yml`, BUILD_TYPE);
 
-    const result = await executeCommand(`cd ${distDir} && docker-compose up --build -d`);
+    const result = await executeCommand(`cd ${distDir} && docker-compose up --build --remove-orphans -d`);
     console.log(result);
   } catch (e) {
     console.error(e);
