@@ -83,9 +83,9 @@ const start = async() => {
 
     // use rc file
     try {
-      const kunafaRcFile = await fs.readFile('.kunafarc');
-      const kunafaRc = JSON.parse(kunafaRcFile);
-      const plugins = kunafaRc.plugins || [];
+      const kunafaConfigFile = await fs.readFile('kunafa-config.json');
+      const kunafaConfig = JSON.parse(kunafaConfigFile);
+      const plugins = kunafaConfig.plugins || [];
       for (const plugin of plugins) {
         await installPlugin(distDir, plugin);
       }
