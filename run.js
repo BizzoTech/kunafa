@@ -91,10 +91,11 @@ const start = async() => {
       for (const plugin of plugins) {
         await installPlugin(distDir, plugin);
       }
+      await buildNginxConfig(distDir, plugins);
     } catch (error) {
       console.log(error);
     }
-    await buildNginxConfig(distDir, plugins);
+    
     
 
 
