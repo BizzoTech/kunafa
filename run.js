@@ -49,10 +49,12 @@ const executeCommand = command => {
 
 const installPlugin = async(distDir, plugin) => {
 
-  const pluginConfig = JSON.parse(await fs.readFile(`node_modules/${plugin}/config.json`));
+  if(fs.existsSync(`node_modules/${plugin}/config.json`)){
+    const pluginConfig = JSON.parse(await fs.readFile(`node_modules/${plugin}/config.json`));
 
-  for (const fileName of pluginConfig.filesToCopy) {
-    await fs.copy(`node_modules/${plugin}/${fileName}`, `${distDir}/${fileName}`);
+    for (const fileName of pluginConfig.filesToCopy) {
+      await fs.copy(`node_modules/${plugin}/${fileName}`, `${distDir}/${fileName}`);
+    }
   }
 
   const kunafaCompose = yaml.safeLoad(await fs.readFile(`${distDir}/docker-compose.yml`, 'utf8'));
