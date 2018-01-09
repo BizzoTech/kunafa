@@ -113,7 +113,10 @@ const start = async() => {
     await fs.copy(`.env.${BUILD_TYPE}`, `${distDir}/.env`);
 
     updateYamlFile(`${distDir}/docker-compose.yml`, BUILD_TYPE);
-    updateYamlFile(`${distDir}/docker-compose.override.yml`, BUILD_TYPE);
+    if(fs.existsSync(`${distDir}/docker-compose.override.yml`)){
+      updateYamlFile(`${distDir}/docker-compose.override.yml`, BUILD_TYPE);
+    }
+    
 
     
     const result = await executeCommand(`cd ${distDir} && docker-compose up --build --remove-orphans -d`);
