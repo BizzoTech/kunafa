@@ -3,6 +3,8 @@ const Handlebars = require('handlebars');
 
 const fs = require('fs-extra');
 
+const process = require('process');
+const BUILD_TYPE = process.argv.length > 2 ? process.argv[2] : "debug";
 
 module.exports = async(distDir, plugins) => {
   const nginxConf = await fs.readFile('./node_modules/kunafa/nginx-conf/template.hbs', 'utf8');
@@ -33,6 +35,14 @@ module.exports = async(distDir, plugins) => {
     for (const fileName of appContextDirContents) {
       const currentValue = context[fileName] ? context[fileName] + '\n' : "";
       context[fileName] = currentValue +  await fs.readFile(`./nginx-conf/context/${fileName}`, 'utf8');
+    }
+  }
+
+  if(fs.existsSync(`./nginx-conf/context/${BUILD_TYPE}`)){
+    const appContextDirContents = await fs.readdir(`./nginx-conf/context/${BUILD_TYPE}`);
+    for (const fileName of appContextDirContents) {
+      const currentValue = context[fileName] ? context[fileName] + '\n' : "";
+      context[fileName] = currentValue +  await fs.readFile(`./nginx-conf/context/${BUILD_TYPE}/${fileName}`, 'utf8');
     }
   }
   
