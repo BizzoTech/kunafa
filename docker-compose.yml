@@ -4,35 +4,35 @@ services:
   auth-db:
     image: apache/couchdb:2.1.1
     volumes:
-      - '/opt/couchdb/data/auth:/opt/couchdb/data'
+      - auth-db-data:/opt/couchdb/data
   main-db:
     image: apache/couchdb:2.1.1
     volumes:
-      - '/opt/couchdb/data/main:/opt/couchdb/data'
+      - main-db-data:/opt/couchdb/data
   events-db:
     image: apache/couchdb:2.1.1
     volumes:
-      - '/opt/couchdb/data/events:/opt/couchdb/data'
+      - events-db-data:/opt/couchdb/data
   notifications-db:
     image: apache/couchdb:2.1.1
     volumes:
-      - '/opt/couchdb/data/notifications:/opt/couchdb/data'
+      - notifications-db-data:/opt/couchdb/data
   archive-db:
     image: apache/couchdb:2.1.1
     volumes:
-      - '/opt/couchdb/data/archive:/opt/couchdb/data'
+      - archive-db-data:/opt/couchdb/data
   public-db:
     image: apache/couchdb:2.1.1
     volumes:
-      - '/opt/couchdb/data/public:/opt/couchdb/data'
+      - public-db-data:/opt/couchdb/data
   shared-db:
     image: apache/couchdb:2.1.1
     volumes:
-      - '/opt/couchdb/data/shared:/opt/couchdb/data'
+      - shared-db-data:/opt/couchdb/data
   anonymous-db:
     image: apache/couchdb:2.1.1
     volumes:
-      - '/opt/couchdb/data/anonymous:/opt/couchdb/data'
+      - anonymous-db-data:/opt/couchdb/data
   proxy-server:
     image: bizzotech/kunafa-proxy-server:v0.1.4
     volumes:
@@ -55,3 +55,14 @@ services:
     restart: on-failure
   eventbus:
     image: bizzotech/kunafa-eventbus:v0.1.1
+
+
+volumes:
+  auth-db-data:
+  main-db-data:
+  events-db-data:
+  notifications-db-data:
+  archive-db-data:
+  public-db-data:
+  shared-db-data:
+  anonymous-db-data:
