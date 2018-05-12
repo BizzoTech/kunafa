@@ -38,11 +38,11 @@ module.exports = async(distDir, plugins) => {
     }
   }
 
-  if(fs.existsSync(`./nginx-conf/context/${BUILD_TYPE}`)){
-    const appContextDirContents = await fs.readdir(`./nginx-conf/context/${BUILD_TYPE}`);
+  if(fs.existsSync(`./nginx-conf/${BUILD_TYPE}`)){
+    const appContextDirContents = await fs.readdir(`./nginx-conf/${BUILD_TYPE}`);
     for (const fileName of appContextDirContents) {
       const currentValue = context[fileName] ? context[fileName] + '\n' : "";
-      context[fileName] = currentValue +  await fs.readFile(`./nginx-conf/context/${BUILD_TYPE}/${fileName}`, 'utf8');
+      context[fileName] = currentValue +  await fs.readFile(`./nginx-conf/${BUILD_TYPE}/${fileName}`, 'utf8');
     }
   }
   
