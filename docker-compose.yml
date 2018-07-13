@@ -2,35 +2,35 @@ version: '2.2'
 
 services:
   auth-db:
-    image: apache/couchdb:2.1.1
+    image: couchdb:2.1.2
     volumes:
       - auth-db-data:/opt/couchdb/data
   main-db:
-    image: apache/couchdb:2.1.1
+    image: couchdb:2.1.2
     volumes:
       - main-db-data:/opt/couchdb/data
   events-db:
-    image: apache/couchdb:2.1.1
+    image: couchdb:2.1.2
     volumes:
       - events-db-data:/opt/couchdb/data
   notifications-db:
-    image: apache/couchdb:2.1.1
+    image: couchdb:2.1.2
     volumes:
       - notifications-db-data:/opt/couchdb/data
   archive-db:
-    image: apache/couchdb:2.1.1
+    image: couchdb:2.1.2
     volumes:
       - archive-db-data:/opt/couchdb/data
   public-db:
-    image: apache/couchdb:2.1.1
+    image: couchdb:2.1.2
     volumes:
       - public-db-data:/opt/couchdb/data
   shared-db:
-    image: apache/couchdb:2.1.1
+    image: couchdb:2.1.2
     volumes:
       - shared-db-data:/opt/couchdb/data
   anonymous-db:
-    image: apache/couchdb:2.1.1
+    image: couchdb:2.1.2
     volumes:
       - anonymous-db-data:/opt/couchdb/data
   proxy-server:
