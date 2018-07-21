@@ -54,7 +54,7 @@ services:
     image: bizzotech/kunafa-init:v0.1.1
     restart: on-failure
   eventbus:
-    image: bizzotech/kunafa-eventbus:v0.1.1
+    image: bizzotech/kunafa-eventbus:v0.1.2
 
 
 volumes:
